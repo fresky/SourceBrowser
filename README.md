@@ -23,7 +23,8 @@ Now also available on NuGet:
  3. Pass a path to an .sln file or a .csproj file (or multiple paths separated by spaces) to create an index for them
  4. Pass /out:<path> to HtmlGenerator.exe to configure where to generate the website to. This path will be used in step 6 as your "physicalPath".
  5. Pass /in:<path> to pass a file with a list of full paths to projects and solutions to include in the index
- 6. Set SourceIndexServer project as startup and run/debug the website. It is pre-configured to run from \bin\Debug\HtmlGenerator\Index but you can customize in project properties -> Web -> Custom server.
+ 6. Pass /d:<path> to pass a directory path, all cs and vb projects under this directory will be indexed
+ 7. Set SourceIndexServer project as startup and run/debug the website. It is pre-configured to run from \bin\Debug\HtmlGenerator\Index but you can customize in project properties -> Web -> Custom server.
 
 **Note:** Either Visual Studio 2015 or at least MSBuild Tools 2015 [http://www.microsoft.com/en-us/download/details.aspx?id=48159](http://www.microsoft.com/en-us/download/details.aspx?id=48159) are required for Source Browser to work (Source Browser uses Roslyn and Roslyn uses MSBuild 14.0 to read projects and solutions).
 
