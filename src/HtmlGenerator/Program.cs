@@ -65,6 +65,13 @@ namespace Microsoft.SourceBrowser.HtmlGenerator
                     }
                 }
 
+                if (arg.StartsWith("/d:"))
+                {
+                    string directory = arg.Substring("/d:".Length).StripQuotes();
+                    AddProjectInDirectory(projects, directory);
+                    continue;
+                }
+
                 try
                 {
                     AddProject(projects, arg);
@@ -99,6 +106,19 @@ namespace Microsoft.SourceBrowser.HtmlGenerator
             {
                 IndexSolutions(projects, properties);
                 FinalizeProjects();
+            }
+        }
+
+        private static void AddProjectInDirectory(List<string> projects, string directory)
+        {
+            DirectoryInfo di = new DirectoryInfo(directory);
+            foreach (var subDirectory in di.GetDirectories())
+            {
+                AddProjectInDirectory(projects, subDirectory.FullName);
+            }
+            foreach (var project in di.GetFiles("*.csproj"))
+            {
+                projects.Add(project.FullName);
             }
         }
 
