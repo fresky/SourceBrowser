@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 using Microsoft.CodeAnalysis;
 using Microsoft.SourceBrowser.Common;
@@ -112,11 +113,13 @@ namespace Microsoft.SourceBrowser.HtmlGenerator
         private static void AddProjectInDirectory(List<string> projects, string directory)
         {
             DirectoryInfo di = new DirectoryInfo(directory);
-            foreach (var subDirectory in di.GetDirectories())
-            {
-                AddProjectInDirectory(projects, subDirectory.FullName);
-            }
-            foreach (var project in di.GetFiles("*.csproj"))
+            foreach (
+                var project in
+                    di.GetFiles("*.*", SearchOption.AllDirectories)
+                        .Where(
+                            f =>
+                                f.Extension.Equals(".csproj", StringComparison.OrdinalIgnoreCase) ||
+                                f.Extension.Equals(".vbproj", StringComparison.OrdinalIgnoreCase)))
             {
                 projects.Add(project.FullName);
             }
